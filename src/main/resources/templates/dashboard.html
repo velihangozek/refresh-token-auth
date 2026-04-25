@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard | Refresh Token Auth</title>
+</head>
+<body>
+<h2>Dashboard</h2>
+
+<p id="userInfo">Loading...</p>
+
+<button onclick="refreshAccessToken()">Refresh Access Token</button>
+<button onclick="logout()">Logout</button>
+
+<script>
+    async function loadUserInfo() {
+        const accessToken = localStorage.getItem("accessToken");
+
+        const response = await fetch("/api/demo/me", {
+            headers: {
+                "Authorization": "Bearer " + accessToken
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            document.getElementById("userInfo").innerText =
+                "Logged in as: " + data.email;
+        } else {
+            document.getElementById("userInfo").innerText =
+                "Access token invalid or expired. Try refreshing token.";
+        }
+    }
+
+    async function refreshAccessToken() {
+        const refreshToken = localStorage.getItem("refreshToken");
+
+        const response = await fetch("/api/auth/refresh", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({refreshToken})
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            localStorage.setItem("accessToken", data.accessToken);
+            alert("Access token refreshed successfully!");
+            loadUserInfo();
+        } else {
+            alert("Refresh token failed. Please login again.");
+            localStorage.clear();
+            window.location.href = "/login";
+        }
+    }
+
+    async function logout() {
+        const refreshToken = localStorage.getItem("refreshToken");
+
+        await fetch("/api/auth/logout", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({refreshToken})
+        });
+
+        localStorage.clear();
+        window.location.href = "/login";
+    }
+
+    loadUserInfo();
+</script>
+</body>
+</html>

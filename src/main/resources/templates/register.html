@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register | Refresh Token Auth</title>
+</head>
+<body>
+<h2>Register</h2>
+
+<form id="registerForm">
+    <input type="email" id="email" placeholder="Email" required>
+    <br><br>
+    <input type="password" id="password" placeholder="Password" required>
+    <br><br>
+    <button type="submit">Register</button>
+</form>
+
+<p id="message"></p>
+<a href="/login">Already have an account?</a>
+
+<script>
+    document.getElementById("registerForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const response = await fetch("/api/auth/register", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                email: document.getElementById("email").value,
+                password: document.getElementById("password").value
+            })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+
+            localStorage.setItem("accessToken", data.accessToken);
+            localStorage.setItem("refreshToken", data.refreshToken);
+
+            window.location.href = "/dashboard";
+        } else {
+            const error = await response.json();
+            document.getElementById("message").innerText = error.message || "Register failed";
+        }
+    });
+</script>
+</body>
+</html>
