@@ -52,7 +52,9 @@ It covers not only basic JWT usage, but also a **secure, scalable, and real-worl
 
 6. Reuse revoked token
    → Request is rejected
+   
 🏗️ Tech Stack
+
 Java 21
 Spring Boot 3.x
 Spring Security
@@ -62,7 +64,9 @@ H2 Database
 Thymeleaf
 JJWT (JWT handling)
 Lombok
+
 📁 Project Structure
+
 com.velihan.refreshtokenauth
 ├── config
 ├── controller
@@ -75,46 +79,65 @@ com.velihan.refreshtokenauth
 ├── security
 ├── service
 └── templates
+
 ⚙️ Configuration
+
 app:
   jwt:
     secret: your-very-secure-secret-key
     access-token-expiration-ms: 900000
     refresh-token-expiration-ms: 604800000
+
 🔑 API Endpoints
+
 Auth Endpoints
+
 Method	Endpoint	Description
 POST	/api/auth/register	Register new user
 POST	/api/auth/login	Login
 POST	/api/auth/refresh	Refresh access token
 POST	/api/auth/logout	Revoke refresh token
+
 Protected Endpoint
+
 Method	Endpoint	Description
 GET	/api/demo/me	Get current user
+
 🧪 Example Requests
+
 Register
+
 POST /api/auth/register
+
 {
   "email": "test@test.com",
   "password": "123456"
 }
+
 Login
+
 POST /api/auth/login
 {
   "email": "test@test.com",
   "password": "123456"
 }
+
 Refresh Token
+
 POST /api/auth/refresh
 {
   "refreshToken": "uuid-token"
 }
+
 Logout
+
 POST /api/auth/logout
 {
   "refreshToken": "uuid-token"
 }
+
 🛡️ Security Details
+
 Passwords are hashed using BCrypt
 JWT tokens are signed using HMAC-SHA
 Refresh tokens:
@@ -122,7 +145,9 @@ Stored in DB
 Expirable
 Revocable (logout support)
 Stateless authentication via Spring Security
+
 ⚠️ Important Design Decisions
+
 Refresh Token is NOT JWT
 Stored in DB
 Revocable
@@ -135,12 +160,15 @@ Reason:
 Refresh should work even when access token is expired.
 
 Lazy Loading Fix
+
 @EntityGraph used to fetch User with RefreshToken
 
 Prevents:
 
 LazyInitializationException
+
 🧩 UI Pages
+
 /login
 /register
 /dashboard
@@ -151,6 +179,7 @@ Login & register forms
 Token stored in localStorage
 Refresh token button
 Logout functionality
+
 🗄️ Database (H2)
 
 H2 Console:
@@ -160,13 +189,16 @@ http://localhost:8080/h2-console
 JDBC URL:
 
 jdbc:h2:mem:refresh_token_auth
+
 📌 Future Improvements
+
 Refresh Token Rotation
 Role-based authorization (ADMIN / USER)
 PostgreSQL integration
 Dockerization
 Swagger / OpenAPI
 Redis token store
+
 👨‍💻 Author
 
 Velihan Gözek
