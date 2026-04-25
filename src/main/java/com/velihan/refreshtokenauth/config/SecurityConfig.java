@@ -44,6 +44,7 @@ public class SecurityConfig {
                                 "/api/auth/register",
                                 "/api/auth/login",
                                 "/api/auth/refresh",
+                                "/api/auth/logout",
                                 "/h2-console/**",
                                 "/css/**",
                                 "/js/**"
