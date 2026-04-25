@@ -3,5 +3,7 @@ package com.velihan.refreshtokenauth.dto.request;
 import jakarta.validation.constraints.NotBlank;
 
 public record RefreshTokenRequest(
-        @NotBlank String refreshToken
-) {}
+        @NotBlank(message = "Refresh token is required")
+        String refreshToken
+) {
+}
