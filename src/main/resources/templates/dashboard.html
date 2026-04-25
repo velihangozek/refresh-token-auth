@@ -43,9 +43,15 @@
 
         if (response.ok) {
             const data = await response.json();
+            const oldAccessToken = localStorage.getItem("accessToken");
+
             localStorage.setItem("accessToken", data.accessToken);
+
+            console.log("Old access token:", oldAccessToken);
+            console.log("New access token:", data.accessToken);
+
             alert("Access token refreshed successfully!");
-            loadUserInfo();
+            await loadUserInfo();
         } else {
             alert("Refresh token failed. Please login again.");
             localStorage.clear();
