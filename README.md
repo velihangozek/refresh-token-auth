@@ -52,7 +52,7 @@ It covers not only basic JWT usage, but also a **secure, scalable, and real-worl
 
 6. Reuse revoked token
    → Request is rejected
-   
+
 🏗️ Tech Stack
 
 Java 21
@@ -211,9 +211,3 @@ This project demonstrates:
 Real-world authentication design
 Secure token lifecycle management
 Clean architecture & best practices
-
-Suitable for:
-
-Backend portfolio
-Technical interviews
-Production-ready foundations
